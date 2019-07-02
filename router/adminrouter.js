@@ -1,16 +1,28 @@
 const express = require('express');
 const router = express.Router();
-
+const User = require("../model/User");
 router.get('/',(req,res,next)=> {
     res.render('home');
 })
 
 router.post('/',(req, res, next) => {
-        console.log(req.body.email);
-        console.log(req.body.password);
+        const user = new User ({
+        Diseases: req.body.Diseases,
+        Summary: req.body.Summary,
+        Causes: req.body.Causes,
+        Medicines: req.body.Medicines,
+        Netural: req.body.Netural
+        })
         
-        console.log('dara edded in database');
-        res.redirect('/admin');
+        user.save((err) =>{
+            if(err){
+                console.log('data faild edded in database')
+            }
+            else{
+                res.redirect('/admin')
+            }
+        })
+        
 })
 
 
