@@ -1,6 +1,9 @@
 const express = require('express');
 const hbs = require('express-handlebars');
-const adminrouter = require('./router/adminrouter');
+const homeRouter = require('./routers/homeRouter');
+const userRouter = require('./routers/userRouter');
+const servicesRouter = require('./routers/servicesRouter');
+const dashBordRouter = require('./routers/dashBordRouter');
 const mongoose = require('mongoose');
 const path = require('path');
 var bodyParser = require('body-parser');
@@ -12,16 +15,21 @@ defaultLayout:__dirname + "/views/layouts/main",
 partialsDir: __dirname + "/views/parsials"
 }));
 app.set('view engine', 'hbs');
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 
-app.use("/admin", adminrouter);
+
+
+
+
+
+app.use("/", homeRouter);
+app.use("/user", userRouter);
+app.use("/services", servicesRouter);
+app.use("/dashbord", dashBordRouter);
+
 
 const DATABASEURL = "mongodb://admin:admin123@ds127938.mlab.com:27938/doctorai_admin"
 mongoose.connect(DATABASEURL, {
